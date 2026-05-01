@@ -20,7 +20,8 @@ class CaseNoteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CaseNote
-        fields = '__all__'
+        fields = ['id', 'complaint', 'officer', 'officer_username', 'note', 'created_at']
+        read_only_fields = ['id', 'officer', 'officer_username', 'created_at']
 
 
 class UserSerializer(serializers.ModelSerializer):

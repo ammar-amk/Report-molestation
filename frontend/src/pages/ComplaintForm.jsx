@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import api from '../api/axios'
 import Navbar from '../components/Navbar'
@@ -11,6 +11,7 @@ export default function ComplaintForm() {
   const [errorMsg, setErrorMsg] = useState(null)
 
   const reporterType = watch('reporter_type', 'student')
+  const today = useMemo(() => new Date().toISOString().split('T')[0], [])
 
   const onSubmit = async (data) => {
     setSubmitting(true)
@@ -170,7 +171,7 @@ export default function ComplaintForm() {
                 <input
                   type="date"
                   className={inputClass}
-                  max={new Date().toISOString().split('T')[0]}
+                  max={today}
                   {...register('incident_date', { required: 'Date is required' })}
                 />
                 {errors.incident_date && <p className={errorClass}>{errors.incident_date.message}</p>}
