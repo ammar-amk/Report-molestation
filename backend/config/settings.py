@@ -54,6 +54,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
+# Use SQLite during build/collectstatic when database is unavailable, MySQL in production
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -67,6 +68,15 @@ DATABASES = {
         },
     }
 }
+
+# During build phase on Render, switch to SQLite to avoid database connection errors
+if config('RENDER', default=False, cast=bool):
+    import sys
+    if 'collectstatic' in sys.argv:
+        DATABASES['default'] = {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': ':memory:',
+        }
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
