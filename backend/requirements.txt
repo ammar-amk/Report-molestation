@@ -6,3 +6,4 @@ django-cryptography>=1.1
 Pillow>=10.0
 mysqlclient>=2.2
 python-decouple>=3.8
+gunicorn>=21.0
