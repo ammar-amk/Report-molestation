@@ -6,7 +6,7 @@ from .models import AuditLog, CaseNote, Complaint, User
 class ComplaintAdmin(admin.ModelAdmin):
     list_display = ['id', 'reporter_type', 'accused_name', 'status', 'priority', 'created_at']
     list_filter = ['status', 'priority', 'reporter_type']
-    search_fields = ['accused_name', 'description', 'reporter_name']
+    search_fields = ['id']
 
 
 @admin.register(User)

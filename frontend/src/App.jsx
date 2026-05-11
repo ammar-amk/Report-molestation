@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { BrowserRouter, Navigate, Route, Routes, useNavigate } from 'react-router-dom'
 import api from './api/axios'
+import LandingPage from './pages/LandingPage'
 import ComplaintForm from './pages/ComplaintForm'
 import AdminDashboard from './pages/AdminDashboard'
 
@@ -91,7 +92,8 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<ComplaintForm />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/report" element={<ComplaintForm />} />
         <Route path="/admin-login" element={<LoginPage />} />
         <Route
           path="/admin"

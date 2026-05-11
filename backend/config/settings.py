@@ -1,18 +1,15 @@
-import os
 from datetime import timedelta
 from pathlib import Path
 
+from decouple import config, Csv
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.environ.get(
-    'DJANGO_SECRET_KEY',
-    'dev-secret-key-change-in-production-xyz123'
-)
+SECRET_KEY = config('DJANGO_SECRET_KEY', default='dev-secret-key-change-in-production-xyz123')
 
-DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
+DEBUG = config('DJANGO_DEBUG', default=True, cast=bool)
 
-_allowed = os.environ.get('DJANGO_ALLOWED_HOSTS', '')
-ALLOWED_HOSTS = _allowed.split(',') if _allowed else (['*'] if DEBUG else ['localhost'])
+ALLOWED_HOSTS = config('DJANGO_ALLOWED_HOSTS', default='*', cast=Csv())
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -59,8 +56,15 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': config('MYSQL_DB', default='molestation'),
+        'USER': config('MYSQL_USER', default='root'),
+        'PASSWORD': config('MYSQL_PASSWORD', default=''),
+        'HOST': config('MYSQL_HOST', default='localhost'),
+        'PORT': config('MYSQL_PORT', default='3306'),
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+        },
     }
 }
 
@@ -82,15 +86,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'api.User'
 
-_cors_origins = os.environ.get('CORS_ALLOWED_ORIGINS', '')
-if _cors_origins:
-    CORS_ALLOWED_ORIGINS = [o.strip() for o in _cors_origins.split(',') if o.strip()]
-else:
-    # Development fallback – restrict to local Vite dev server
-    CORS_ALLOWED_ORIGINS = [
-        'http://localhost:5173',
-        'http://127.0.0.1:5173',
-    ]
+CORS_ALLOWED_ORIGINS = config(
+    'CORS_ALLOWED_ORIGINS',
+    default='http://localhost:5173,http://127.0.0.1:5173',
+    cast=Csv()
+)
 
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'

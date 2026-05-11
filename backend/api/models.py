@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django_cryptography.fields import encrypt
 
 
 class User(AbstractUser):
@@ -35,16 +36,16 @@ class Complaint(models.Model):
     ]
 
     reporter_type = models.CharField(max_length=20, choices=REPORTER_TYPE_CHOICES)
-    reporter_name = models.CharField(max_length=200, blank=True)
-    matric_or_staff_id = models.CharField(max_length=100, blank=True)
-    contact = models.CharField(max_length=200, blank=True)
-    accused_name = models.CharField(max_length=200)
+    reporter_name = encrypt(models.CharField(max_length=200, blank=True))
+    matric_or_staff_id = encrypt(models.CharField(max_length=100, blank=True))
+    contact = encrypt(models.CharField(max_length=200, blank=True))
+    accused_name = encrypt(models.CharField(max_length=200))
     accused_type = models.CharField(max_length=20, choices=ACCUSED_TYPE_CHOICES)
-    department = models.CharField(max_length=200)
+    department = encrypt(models.CharField(max_length=200))
     incident_date = models.DateField()
-    location = models.CharField(max_length=300)
-    description = models.TextField()
-    witnesses = models.TextField(blank=True)
+    location = encrypt(models.CharField(max_length=300))
+    description = encrypt(models.TextField())
+    witnesses = encrypt(models.TextField(blank=True))
     evidence_file = models.FileField(upload_to='evidence/', blank=True, null=True)
     consent = models.BooleanField(default=False)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='new')

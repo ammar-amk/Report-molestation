@@ -17,7 +17,7 @@ export default function Navbar() {
             to="/"
             className="text-portal-blue font-bold text-lg sm:text-xl truncate max-w-xs sm:max-w-none"
           >
-            Confidential Incident Reporting Portal
+            Incident Reporting Portal
           </Link>
 
           <div className="flex items-center gap-4">
@@ -39,7 +39,7 @@ export default function Navbar() {
             ) : (
               <>
                 <Link
-                  to="/"
+                  to="/report"
                   className="text-portal-blue hover:text-blue-800 font-medium transition-colors"
                 >
                   Report Incident
